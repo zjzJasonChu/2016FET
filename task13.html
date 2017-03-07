@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 13</title>
+</head>
+<body>
+	<label>请输入北京今天空气质量：
+		<input type="text" id="aqi-input">
+	</label>
+	<button id="button">确认填写</button>
+	<div>
+		你输入的值是：<span id="aqi-display">尚未录入</span>
+	</div>
+	<script type="text/javascript">
+		(function(){
+			/*
+			给按钮button绑定一个点击事件
+			在事件处理函数中
+			获取aqi-input的值，并显示在aqi-display中
+			*/
+		
+			/*添加跨浏览器事件处理程序*/
+			var EventUtil={
+				addHandler: function(element, type, handler){
+					if(element.addEventListener){
+						element.addEventListener(type, handler, false);
+					}else if(element.attachEvent){
+						element.attachEvent('on'+type, handler);
+					}else{
+						element['on'+type]=handler;
+					}
+				}
+			};
+
+			var button=document.getElementById('button'),
+				aqiInput=document.getElementById('aqi-input'),
+				aqiDisplay=document.getElementById('aqi-display');
+
+			EventUtil.addHandler(button, 'click', aqiTrans);
+			EventUtil.addHandler(aqiInput, 'keyup', function(event){
+				if(event.keyCode===13){
+					aqiTrans();
+				}
+			});
+
+			function aqiTrans(){
+				var num=aqiInput.value.trim(),
+					value=num.replace(/^0+/, ''),
+					pattern=/^[1-9]\d{0,2}$/;
+				if(pattern.test(value)){
+					aqiDisplay.innerHTML=value;
+				}else{
+					aqiDisplay.innerHTML='输入的值不是有效的AQI数值，请重新输入1-999的整数!';
+				}
+			}
+		})();
+	</script>
+</body>
+</html>
