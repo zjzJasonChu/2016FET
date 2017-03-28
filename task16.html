@@ -7,7 +7,7 @@
 <body>
 	<div>
 		<label>城市名称：<input type="text" id="aqi-city-input"></label>
-		<label>空气质量指数：<input type="text" id="aqi-value-input"></	label>
+		<label>空气质量指数：<input type="text" id="aqi-value-input"></label>
 		<button id="add-btn">确认添加</button>
 		<div id="errMsg"></div>
 	</div>
@@ -77,9 +77,10 @@
 	 */
 	function renderAqiList(){
 		var table=document.getElementById('aqi-table'),
+			keys=Object.keys(aqiData),
 			html='';
-		for(var city in aqiData){
-			html+='<tr><td>'+city+'</td><td>'+aqiData[city]+'</td><td><button>删除</button></td></tr>';
+		for(var i=0, len=keys.length; i<len; i++){
+			html+='<tr><td>'+keys[i]+'</td><td>'+aqiData[keys[i]]+'</td><td><button>删除</button></td></tr>';
 		}
 		if(html){
 			html='<tr><td>城市</td><td>空气质量</td><td>操作</td></tr>'+html;
@@ -103,7 +104,7 @@
 	function delBtnHandle(event){
 		event=EventUtil.getEvent(event);
 		var target=EventUtil.getTarget(event);
-		if(target.tagName){
+		if(target.tagName.toLowerCase()==='button'){
 			var city=target.parentNode.parentNode.childNodes[0].innerHTML;
 			delete aqiData[city];
 		}
